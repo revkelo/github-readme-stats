@@ -20,7 +20,7 @@ import { parseEmojis } from "../common/ops.js";
  * since vercel is using v16.14.0 which does not yet support json imports without the
  * --experimental-json-modules flag.
  */
-import languageColors from "../common/languageColors.json" with { type: "json" };
+import languageColors from "../common/languageColors.json";
 
 const ICON_SIZE = 16;
 const CARD_DEFAULT_WIDTH = 400;
