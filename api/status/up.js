@@ -87,7 +87,8 @@ export default async (req, res) => {
   try {
     let PATsValid = true;
     try {
-      await retryer(uptimeFetcher, {});
+      const response = await retryer(uptimeFetcher, {});
+      PATsValid = typeof response?.data?.data?.rateLimit?.remaining === 'number';
     } catch (err) {
       // Resolve eslint no-unused-vars
       err;

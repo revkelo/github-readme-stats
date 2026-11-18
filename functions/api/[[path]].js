@@ -5,6 +5,11 @@ import gist from '../../api/gist.js';
 import wakatime from '../../api/wakatime.js';
 import up from '../../api/status/up.js';
 import patInfo from '../../api/status/pat-info.js';
+import axios from 'axios';
+
+// Workers provides Fetch; avoid the Node HTTP adapter and send GitHub's required UA.
+axios.defaults.adapter = 'fetch';
+axios.defaults.headers.common['User-Agent'] = 'kgstudio-stats';
 
 const handlers = { '': stats, index: stats, 'top-langs': languages, pin, gist, wakatime, 'status/up': up, 'status/pat-info': patInfo };
 

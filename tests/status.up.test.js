@@ -10,8 +10,10 @@ import up, { RATE_LIMIT_SECONDS } from "../api/status/up.js";
 const mock = new MockAdapter(axios);
 
 const successData = {
-  rateLimit: {
-    remaining: 4986,
+  data: {
+    rateLimit: {
+      remaining: 4986,
+    },
   },
 };
 
@@ -59,6 +61,12 @@ afterEach(() => {
 });
 
 describe("Test /api/status/up", () => {
+  it("reports down when GitHub returns an HTTP error without GraphQL data", async () => {
+    mock.onPost("https://api.github.com/graphql").reply(403, { message: "Forbidden" });
+    const { req, res } = faker({ type: "json" });
+    await up(req, res);
+    expect(res.send).toHaveBeenCalledWith({ up: false });
+  });
   it("should return `true` if request was successful", async () => {
     mock.onPost("https://api.github.com/graphql").replyOnce(200, successData);
 
